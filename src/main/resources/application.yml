@@ -1,0 +1,31 @@
+server:
+  port: 8092
+
+spring:
+  application:
+    name: msvc-transactions
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_MSVC_TRANSACTIONS_URL}
+    username: ${DB_MSVC_TRANSACTIONS_USERNAME}
+    password: ${DB_MSVC_TRANSACTIONS_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  config:
+    import: optional:configserver:http://localhost:8888
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+security:
+  machine:
+    key: ${MACHINE_KEY}
+    header: ${MACHINE_HEADER}
