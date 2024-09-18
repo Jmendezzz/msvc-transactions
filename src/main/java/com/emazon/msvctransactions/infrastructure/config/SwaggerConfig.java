@@ -10,29 +10,30 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.http.HttpHeaders;
 
+import static com.emazon.msvctransactions.infrastructure.utils.constants.SwaggerConstant.*;
+
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "Stock Microservice API",
-                description = "Stock Microservice API Documentation contains Category, Brands, Articles",
-                version = "1.0.0",
+                title = API_TITLE,
+                description = API_DESCRIPTION,
+                version = API_VERSION,
                 contact = @Contact(
-                        name = "Juan Gerardo Méndez López",
-                        email = "juange.mendez.lopez@gmail.com")
+                        name = CONTACT_NAME,
+                        email = CONTACT_EMAIL)
         ),
         servers = {
-                @Server(url = "http://localhost:8090", description = "Local Dev Server"),
+                @Server(url = SERVER_URL, description = SERVER_DESCRIPTION),
         },
-        security = @SecurityRequirement(name = "JWT Token")
+        security = @SecurityRequirement(name = SECURITY_NAME)
 )
 @SecurityScheme(
-        name= "JWT Token",
+        name= SECURITY_NAME,
         type = SecuritySchemeType.HTTP,
         paramName = HttpHeaders.AUTHORIZATION,
         in = SecuritySchemeIn.HEADER,
-        scheme = "bearer",
-        bearerFormat = "JWT"
-
+        scheme = SCHEME,
+        bearerFormat = BEARER_FORMAT
 )
 public class SwaggerConfig {
 }
