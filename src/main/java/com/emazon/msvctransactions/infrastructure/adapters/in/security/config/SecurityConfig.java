@@ -17,6 +17,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import static com.emazon.msvctransactions.infrastructure.utils.constants.SecurityConstant.*;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -30,10 +32,11 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests -> {
-              authorizeRequests.requestMatchers("/error").permitAll();
+              authorizeRequests.requestMatchers(ERROR_URL).permitAll();
+              authorizeRequests.requestMatchers(SWAGGER_UI_URL).permitAll();
+              authorizeRequests.requestMatchers(SWAGGER_API_DOCS_URL).permitAll();
               authorizeRequests.anyRequest().authenticated();
-                    }
-            )
+            })
             .exceptionHandling(exceptionHandling ->{
               exceptionHandling.authenticationEntryPoint(new JwtAuthenticationEntryPoint());
               exceptionHandling.accessDeniedHandler(new CustomAccessDeniedHandler());
