@@ -1,4 +1,4 @@
-package com.emazon.msvctransactions.infrastructure.controllers;
+package com.emazon.msvctransactions.infrastructure.in.controllers;
 
 import com.emazon.msvctransactions.application.dtos.supply.CreateSupplyRequestDto;
 import com.emazon.msvctransactions.application.dtos.supply.SupplyResponseDto;
@@ -15,7 +15,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
@@ -33,11 +32,6 @@ class SupplyControllerTest {
 
   @MockBean
   private SupplyHandler supplyHandler;
-
-  @BeforeEach
-  void setUp() {
-    // You can set up default behavior for SupplyHandler if needed
-  }
 
   @Test
   @WithMockUser(username = "warehouse_assistant", roles = {SecurityConstant.WAREHOUSE_ASSISTANT_ROLE  })

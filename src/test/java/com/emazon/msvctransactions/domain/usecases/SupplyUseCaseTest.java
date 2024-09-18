@@ -1,4 +1,4 @@
-package com.emazon.msvctransactions.domain;
+package com.emazon.msvctransactions.domain.usecases;
 
 import com.emazon.msvctransactions.domain.enums.SupplyStatus;
 import com.emazon.msvctransactions.domain.exceptions.InvalidInputException;
@@ -61,6 +61,8 @@ class SupplyUseCaseTest {
   @Test
   void whenInvalidArticleIdCreateSupplyShouldThrowException() {
     Supply supply = new Supply();
+    supply.setQuantity(MIN_SUPPLY_QUANTITY);
+    supply.setAvailableAt(LocalDateTime.now().plusDays(1));
     supply.setArticleId(120L);
 
     when(stockService.articleExists(anyLong())).thenReturn(false);
@@ -76,8 +78,6 @@ class SupplyUseCaseTest {
     Supply supply = new Supply();
     supply.setArticleId(1L);
 
-    when(stockService.articleExists(anyLong())).thenReturn(true);
-
     InvalidInputException exception = assertThrows(InvalidInputException.class, () -> supplyUseCase.createSupply(supply));
 
     assertEquals(EMPTY_SUPPLY_QUANTITY, exception.getMessage());
@@ -89,8 +89,6 @@ class SupplyUseCaseTest {
     Supply supply = new Supply();
     supply.setArticleId(1L);
     supply.setQuantity(MIN_SUPPLY_QUANTITY - 1);
-
-    when(stockService.articleExists(anyLong())).thenReturn(true);
 
     InvalidInputException exception = assertThrows(InvalidInputException.class, () -> supplyUseCase.createSupply(supply));
 
@@ -119,8 +117,6 @@ class SupplyUseCaseTest {
     supply.setArticleId(1L);
     supply.setQuantity(MIN_SUPPLY_QUANTITY);
 
-    when(stockService.articleExists(anyLong())).thenReturn(true);
-
     InvalidInputException exception = assertThrows(InvalidInputException.class, () -> supplyUseCase.createSupply(supply));
 
     assertEquals(EMPTY_AVAILABLE_AT, exception.getMessage());
@@ -133,8 +129,6 @@ class SupplyUseCaseTest {
     supply.setArticleId(1L);
     supply.setQuantity(MIN_SUPPLY_QUANTITY);
     supply.setAvailableAt(LocalDateTime.now().minusDays(1));
-
-    when(stockService.articleExists(anyLong())).thenReturn(true);
 
     InvalidInputException exception = assertThrows(InvalidInputException.class, () -> supplyUseCase.createSupply(supply));
 
