@@ -17,12 +17,12 @@ import static com.emazon.msvctransactions.domain.utils.constants.supply.SupplyEx
 
 public class SupplyUseCaseImp implements SupplyUseCase {
   private final SupplyRepository repository;
-  private final StockService stockServiceClient;
+  private final StockService stockService;
   private final AuthService authService;
 
-  public SupplyUseCaseImp(SupplyRepository repository, StockService stockServiceClient, AuthService authService) {
+  public SupplyUseCaseImp(SupplyRepository repository, StockService stockService, AuthService authService) {
     this.repository = repository;
-    this.stockServiceClient = stockServiceClient;
+    this.stockService = stockService;
     this.authService = authService;
   }
   @Override
@@ -43,7 +43,7 @@ public class SupplyUseCaseImp implements SupplyUseCase {
     supplies.stream()
             .filter(supply -> supply.getAvailableAt().isBefore(LocalDateTime.now()))
             .forEach(supply -> {
-              stockServiceClient.updateArticleStock(supply.getArticleId(), supply.getQuantity());
+              stockService.updateArticleStock(supply.getArticleId(), supply.getQuantity());
               supply.setStatus(SupplyStatus.DELIVERED);
               repository.saveSupply(supply);
             });
@@ -51,9 +51,7 @@ public class SupplyUseCaseImp implements SupplyUseCase {
   }
 
   private void validateSupply(Supply supply) {
-    if(!stockServiceClient.articleExists(supply.getArticleId())) {
-      throw new InvalidInputException(ARTICLE_NOT_FOUND, ARTICLE_NOT_FOUND_CODE);
-    }
+
     if(supply.getQuantity() == null) {
       throw new InvalidInputException(EMPTY_SUPPLY_QUANTITY, EMPTY_SUPPLY_QUANTITY_CODE);
     }
@@ -68,6 +66,9 @@ public class SupplyUseCaseImp implements SupplyUseCase {
     }
     if(supply.getAvailableAt().isBefore(LocalDateTime.now())) {
       throw new InvalidInputException(INVALID_AVAILABLE_AT, INVALID_AVAILABLE_AT_CODE);
+    }
+    if(!stockService.articleExists(supply.getArticleId())) {
+      throw new InvalidInputException(ARTICLE_NOT_FOUND, ARTICLE_NOT_FOUND_CODE);
     }
   }
 }

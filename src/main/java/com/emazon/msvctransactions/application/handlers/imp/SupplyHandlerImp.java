@@ -21,9 +21,8 @@ public class SupplyHandlerImp implements SupplyHandler {
   public SupplyResponseDto createSupply(CreateSupplyRequestDto createSupplyRequestDto) {
     return mapper.toDto(supplyUseCase.createSupply(mapper.toDomain(createSupplyRequestDto)));
   }
-
-  @Scheduled(cron = CRON_JOB_SUPPLY_UPDATE)
-  private void updateStock() {
+  @Override
+  public void updateStock() {
     supplyUseCase.updateStock();
   }
 }
