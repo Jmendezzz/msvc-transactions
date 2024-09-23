@@ -3,6 +3,7 @@ package com.emazon.msvctransactions.infrastructure.adapters.in.controllers;
 import com.emazon.msvctransactions.application.dtos.supply.CreateSupplyRequestDto;
 import com.emazon.msvctransactions.application.dtos.supply.SupplyResponseDto;
 import com.emazon.msvctransactions.application.handlers.SupplyHandler;
+import com.emazon.msvctransactions.infrastructure.exceptions.EntityNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,15 +13,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import static com.emazon.msvctransactions.infrastructure.utils.constants.SecurityConstant.ADMIN_ROLE;
+import static com.emazon.msvctransactions.domain.utils.constants.supply.SupplyExceptionMessage.SUPPLY_NOT_FOUND;
 import static com.emazon.msvctransactions.infrastructure.utils.constants.SecurityConstant.WAREHOUSE_ASSISTANT_ROLE;
 import static com.emazon.msvctransactions.infrastructure.utils.constants.SwaggerConstant.*;
 import static com.emazon.msvctransactions.infrastructure.utils.constants.SwaggerConstant.SECURITY_NAME;
@@ -50,6 +47,13 @@ public class SupplyController {
     return new ResponseEntity<>(
             supplyHandler.createSupply(createSupplyRequestDto),
             HttpStatus.CREATED);
+  }
+
+  @GetMapping("/next-available/{articleId}")
+  public ResponseEntity<SupplyResponseDto> getNextAvailableSupplyForArticle(@PathVariable Long articleId) {
+    return supplyHandler.getNextAvailableSupplyForArticle(articleId)
+            .map(ResponseEntity::ok)
+            .orElseThrow(()-> new EntityNotFoundException(SUPPLY_NOT_FOUND));
   }
 
 }
