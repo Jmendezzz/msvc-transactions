@@ -3,7 +3,6 @@ package com.emazon.msvctransactions.infrastructure.adapters.in.controllers;
 import com.emazon.msvctransactions.application.dtos.supply.CreateSupplyRequestDto;
 import com.emazon.msvctransactions.application.dtos.supply.SupplyResponseDto;
 import com.emazon.msvctransactions.application.handlers.SupplyHandler;
-import com.emazon.msvctransactions.infrastructure.exceptions.EntityNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import static com.emazon.msvctransactions.domain.utils.constants.supply.SupplyExceptionMessage.SUPPLY_NOT_FOUND;
 import static com.emazon.msvctransactions.infrastructure.utils.constants.SecurityConstant.WAREHOUSE_ASSISTANT_ROLE;
 import static com.emazon.msvctransactions.infrastructure.utils.constants.SwaggerConstant.*;
 import static com.emazon.msvctransactions.infrastructure.utils.constants.SwaggerConstant.SECURITY_NAME;
@@ -53,7 +51,7 @@ public class SupplyController {
   public ResponseEntity<SupplyResponseDto> getNextAvailableSupplyForArticle(@PathVariable Long articleId) {
     return supplyHandler.getNextAvailableSupplyForArticle(articleId)
             .map(ResponseEntity::ok)
-            .orElseThrow(()-> new EntityNotFoundException(SUPPLY_NOT_FOUND));
+            .orElse(null);
   }
 
 }
