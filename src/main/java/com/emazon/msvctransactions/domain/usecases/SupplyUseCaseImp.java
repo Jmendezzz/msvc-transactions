@@ -10,6 +10,7 @@ import com.emazon.msvctransactions.domain.ports.out.repositories.SupplyRepositor
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.emazon.msvctransactions.domain.utils.constants.supply.SupplyConstant.MIN_SUPPLY_QUANTITY;
 import static com.emazon.msvctransactions.domain.utils.constants.supply.SupplyExceptionCode.*;
@@ -48,6 +49,11 @@ public class SupplyUseCaseImp implements SupplyUseCase {
               repository.saveSupply(supply);
             });
 
+  }
+
+  @Override
+  public Optional<Supply> getNextAvailableSupplyForArticle(Long articleId) {
+    return repository.getNextAvailableSupplyForArticle(articleId);
   }
 
   private void validateSupply(Supply supply) {

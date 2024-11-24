@@ -1,5 +1,7 @@
 package com.emazon.msvctransactions.infrastructure.config;
 
+import feign.Logger;
+import feign.Request;
 import feign.codec.ErrorDecoder;
 import feign.okhttp.OkHttpClient;
 import org.springframework.context.annotation.Bean;

@@ -2,6 +2,7 @@ package com.emazon.msvctransactions.infrastructure.exceptions.handler;
 
 
 import com.emazon.msvctransactions.domain.exceptions.BusinessException;
+import com.emazon.msvctransactions.infrastructure.exceptions.EntityNotFoundException;
 import com.emazon.msvctransactions.infrastructure.exceptions.ExceptionResponse;
 import com.emazon.msvctransactions.infrastructure.exceptions.feign.InternalFeignException;
 import org.springframework.http.HttpStatus;
@@ -47,5 +48,11 @@ public class GlobalExceptionHandler {
     InternalFeignException internalFeignException = new InternalFeignException();
     ExceptionResponse errorResponse = new ExceptionResponse(LocalDateTime.now(),HttpStatus.INTERNAL_SERVER_ERROR.name(),internalFeignException.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  @ExceptionHandler(EntityNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public ResponseEntity<ExceptionResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
+    ExceptionResponse errorResponse = new ExceptionResponse(LocalDateTime.now(),HttpStatus.NOT_FOUND.name(),ex.getMessage(),HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
   }
 }

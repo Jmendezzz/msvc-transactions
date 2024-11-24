@@ -29,3 +29,10 @@ security:
   machine:
     key: ${MACHINE_KEY}
     header: ${MACHINE_HEADER}
+
+stripe:
+  secret:
+    key: ${STRIPE_SECRET_KEY}
+
+frontend:
+    url: ${FRONTEND_URL}

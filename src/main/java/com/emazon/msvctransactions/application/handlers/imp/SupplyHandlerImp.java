@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static com.emazon.msvctransactions.domain.utils.constants.supply.SupplyConstant.CRON_JOB_SUPPLY_UPDATE;
 
 @Service
@@ -24,5 +26,11 @@ public class SupplyHandlerImp implements SupplyHandler {
   @Override
   public void updateStock() {
     supplyUseCase.updateStock();
+  }
+
+  @Override
+  public Optional<SupplyResponseDto> getNextAvailableSupplyForArticle(Long articleId) {
+    return supplyUseCase.getNextAvailableSupplyForArticle(articleId)
+            .map(mapper::toDto);
   }
 }
