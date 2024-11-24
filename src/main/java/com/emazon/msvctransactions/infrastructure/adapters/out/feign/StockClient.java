@@ -1,5 +1,6 @@
 package com.emazon.msvctransactions.infrastructure.adapters.out.feign;
 
+import com.emazon.msvctransactions.application.dtos.stock.DecreaseArticleStockRequestDto;
 import com.emazon.msvctransactions.application.dtos.stock.UpdateArticleStockRequestDto;
 import com.emazon.msvctransactions.infrastructure.config.FeignConfig;
 import com.emazon.msvctransactions.infrastructure.utils.constants.FeignConstant;
@@ -15,6 +16,10 @@ public interface  StockClient {
   void updateArticleStock(@PathVariable Long articleId,
                           @RequestBody UpdateArticleStockRequestDto updateArticleStockRequestDto,
                           @RequestHeader(MACHINE_HEADER) String machineKey);
+  @PatchMapping("/{articleId}/decrease-stock")
+  void decreaseArticleStock(@PathVariable Long articleId,
+                            @RequestBody DecreaseArticleStockRequestDto decreaseArticleStockRequestDto,
+                            @RequestHeader(MACHINE_HEADER) String machineKey);
 
 
   @GetMapping("/{articleId}/exists")
