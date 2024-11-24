@@ -35,6 +35,7 @@ public class SecurityConfig {
               authorizeRequests.requestMatchers(ERROR_URL).permitAll();
               authorizeRequests.requestMatchers(SWAGGER_UI_URL).permitAll();
               authorizeRequests.requestMatchers(SWAGGER_API_DOCS_URL).permitAll();
+              authorizeRequests.requestMatchers(HttpMethod.GET, SUPPLY_URL).permitAll();
               authorizeRequests.anyRequest().authenticated();
             })
             .exceptionHandling(exceptionHandling ->{

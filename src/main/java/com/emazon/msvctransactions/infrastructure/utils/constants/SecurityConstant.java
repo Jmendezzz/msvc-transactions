@@ -12,6 +12,7 @@ public class SecurityConstant {
   public static final String ERROR_URL = "/error";
   public static final String SWAGGER_UI_URL = "/swagger-ui/**";
   public static final String SWAGGER_API_DOCS_URL = "/v3/api-docs/**";
+  public static final String SUPPLY_URL = "/api/v1/supplies/**";
 
 
   private SecurityConstant() {

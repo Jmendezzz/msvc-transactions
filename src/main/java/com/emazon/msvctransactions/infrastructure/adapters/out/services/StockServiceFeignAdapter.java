@@ -1,5 +1,6 @@
 package com.emazon.msvctransactions.infrastructure.adapters.out.services;
 
+import com.emazon.msvctransactions.application.dtos.stock.DecreaseArticleStockRequestDto;
 import com.emazon.msvctransactions.application.dtos.stock.UpdateArticleStockRequestDto;
 import com.emazon.msvctransactions.domain.ports.out.services.StockService;
 import com.emazon.msvctransactions.infrastructure.adapters.out.feign.StockClient;
@@ -24,6 +25,14 @@ public class StockServiceFeignAdapter implements StockService {
     UpdateArticleStockRequestDto updateArticleStockRequestDto = new UpdateArticleStockRequestDto(quantity);
 
     stockClient.updateArticleStock(articleId, updateArticleStockRequestDto, machineKey);
+  }
+
+  @Override
+  public void decreaseArticleStock(Long articleId, int quantity) {
+    DecreaseArticleStockRequestDto decreaseArticleStockRequestDto = new DecreaseArticleStockRequestDto(quantity);
+
+    stockClient.decreaseArticleStock(articleId, decreaseArticleStockRequestDto, machineKey);
+
   }
 
   @Override
